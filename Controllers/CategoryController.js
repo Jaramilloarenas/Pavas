@@ -1,7 +1,12 @@
-
 const {getCategoryData, getCategoryIdData, createCategoryData, udpdateCategoryData, deleteCategoryData} = require('./../Database/CategoryQueries.js');
+const {validateDataCategory, validateId} = require('./../utils/validation.js')
+
+const messageEmptyFields = "No se han proporcionado todos los datos para procesar la solicitud";
+const message = "No ha proporcionado un id de producto para consultar";
+
 
 const getCategories = async (req, res) =>{
+    console.log("Inside Category");
     getCategoryData((err, data) => {
         if (err) 
             return res.status(500).send({"Error":  err});
@@ -10,7 +15,8 @@ const getCategories = async (req, res) =>{
 };
 
 const getCategoryById = (req, res) =>{
-    console.log("Inside getCategoryById");
+    if(!validateId(req.params))
+        return res.status(400).json({"message" : message});
     getCategoryIdData(req.params.id, (err, data) => {
         if (err) 
             return res.status(500).send({"Error":  err});
@@ -19,11 +25,11 @@ const getCategoryById = (req, res) =>{
 };
 
 const createCategory = (req, res) =>{
-    console.log("Inside createCategory");
+    if(!validateDataCategory(req.body))
+        return res.status(400).json({"message" : messageEmptyFields});
     const data = {
         name: req.body.name,
     };
-
     createCategoryData(data, (err, result) => {
         if (err) 
             return res.status(500).send({"Error":  err});
@@ -32,11 +38,13 @@ const createCategory = (req, res) =>{
 };
 
 const updateCategory = (req, res) =>{
-    console.log("Inside updateCategory");
+    if(!validateId(req.params))
+        return res.status(400).json({"message" : message});
+    if(!validateDataCategory(req.body))
+        return res.status(400).json({"message" : messageEmptyFields});
     const data = {
         name: req.body.name,
     };
-
     udpdateCategoryData(req.params.id, data, (err, result) => {
         if(err) 
             return  res.status(500).send({"Error":  err});
@@ -46,6 +54,8 @@ const updateCategory = (req, res) =>{
 
 const deleteCategory = (req, res) =>{
     console.log("Inside deleteCategory");
+    if(!validateId(req.params))
+        return res.status(400).json({"message" : message});
     deleteCategoryData(req.params.id, (err, result) => {
         if(err) 
             return  res.status(500).send({"Error":  err});

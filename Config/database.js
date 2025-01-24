@@ -11,10 +11,17 @@ const mysql = require('mysql2');
 });*/
 
 
-const connection = mysql.createConnection({
+/*const connection = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "010203Vision",
+    database: "inventario"
+});*/
+
+const connection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "19890415Yeimy",
     database: "inventario"
 });
 
