@@ -1,5 +1,5 @@
 
-const {getCategoryData, getCategoryIdData, createCategoryData, udpdateCategoryData, deleteCategoryData} = require('./../Database/Queries.js');
+const {getCategoryData, getCategoryIdData, createCategoryData, udpdateCategoryData, deleteCategoryData} = require('./../Database/CategoryQueries.js');
 
 const getCategories = async (req, res) =>{
     getCategoryData((err, data) => {
